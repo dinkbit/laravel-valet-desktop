@@ -1,6 +1,6 @@
 # Laravel Valet Desktop
 
-[![Build Status](https://travis-ci.org/dinkbit/laravel-valet.svg?branch=master)](https://travis-ci.org/dinkbit/laravel-valet)
+[![Build Status](https://travis-ci.org/dinkbit/laravel-valet-desktop.svg?branch=master)](https://travis-ci.org/dinkbit/laravel-valet-desktop)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 
 ## Usage
