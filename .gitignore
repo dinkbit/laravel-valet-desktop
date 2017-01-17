@@ -1,0 +1,9 @@
+# build output
+app/dist
+dist
+
+# dependencies
+node_modules
+
+# logs
+npm-debug.log
