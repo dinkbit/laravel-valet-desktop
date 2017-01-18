@@ -49,7 +49,7 @@ if (isPlatform('macOS')) {
 }
 
 // Define the application name
-app.setName('Valet')
+app.setName('Laravel Valet')
 
 // Make Now start automatically on login
 if (!isDev && firstRun()) {

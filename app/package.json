@@ -1,12 +1,12 @@
 {
   "name": "laravel-valet-desktop",
-  "productName": "Valet",
+  "productName": "Laravel Valet",
   "description": "The Laravel Valet Desktop App",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/main.js",
   "author": {
-    "name": "Dinkbit",
+    "name": "dinkbit",
     "email": "devs@dinkbit.com"
   },
   "repository": "dinkbit/laravel-valet-desktop",

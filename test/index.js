@@ -9,7 +9,7 @@ let app
 
 test.before(async () => {
   app = new Application({
-    path: path.join(__dirname, '../dist/mac/Valet.app/Contents/MacOS/Valet'),
+    path: path.join(__dirname, '../dist/mac/Laravel Valet.app/Contents/MacOS/Laravel Valet'),
     env: {
       TESTING: true
     }
