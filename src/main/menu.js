@@ -71,15 +71,6 @@ export async function innerMenu(app, tray, data, windows) {
 
   return [
     {
-      label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
-      click() {
-        toggleWindow(null, windows.about)
-      }
-    },
-    {
-      type: 'separator'
-    },
-    {
       label: 'Park...',
       accelerator: 'CmdOrCtrl+P',
       async click() {
@@ -120,7 +111,20 @@ export async function innerMenu(app, tray, data, windows) {
       type: 'separator'
     },
     {
-      label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
+      label: process.platform === 'darwin' ? `About ${app.getName()}` : 'About',
+      click() {
+        toggleWindow(null, windows.about)
+      }
+    },
+    {
+      label: 'Preferences...',
+      accelerator: 'CmdOrCtrl+,',
+      click() {
+        toggleWindow(null, windows.preferences)
+      }
+    },
+    {
+      label: 'Quit',
       click: app.quit,
       role: 'quit'
     }
@@ -139,7 +143,14 @@ export function outerMenu(app, windows) {
       type: 'separator'
     },
     {
-      label: process.platform === 'darwin' ? `Quit ${app.getName()}` : 'Quit',
+      label: 'Preferences...',
+      accelerator: 'CmdOrCtrl+,',
+      click() {
+        toggleWindow(null, windows.preferences)
+      }
+    },
+    {
+      label: 'Quit',
       role: 'quit'
     }
   ]

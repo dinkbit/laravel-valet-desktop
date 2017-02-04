@@ -12,12 +12,15 @@ import showError from './utils/error'
 
 import Title from './components/title'
 import Install from './components/install'
+import Preferences from './components/preferences'
 
 import logoSVG from './vectors/logo'
 import arrowSVG from './vectors/arrow'
 
+// Routes
 const anchorWelcome = document.querySelector('#welcome-to-laravel-valet > div')
 const anchorAbout = document.querySelector('#about-laravel-valet > div')
+const anchorPreferences = document.querySelector('#preferences > div')
 
 const SliderArrows = React.createClass({
   render() {
@@ -253,4 +256,19 @@ const AboutContent = React.createClass({
 
 if (anchorAbout) {
   ReactDOM.render(<AboutContent/>, anchorAbout)
+}
+
+const PreferencesContent = React.createClass({
+  render() {
+    return (
+      <section id="preferences">
+        <span className="window-title">Preferences</span>
+        <Preferences/>
+      </section>
+    )
+  }
+})
+
+if (anchorPreferences) {
+  ReactDOM.render(<PreferencesContent/>, anchorPreferences)
 }

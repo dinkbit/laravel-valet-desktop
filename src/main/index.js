@@ -167,6 +167,53 @@ const aboutWindow = () => {
   return win
 }
 
+const preferencesWindow = () => {
+  const win = new BrowserWindow({
+    width: 250,
+    height: 250,
+    title: 'Preferences',
+    resizable: false,
+    center: true,
+    frame: isPlatform('windows'),
+    show: false,
+    fullscreenable: false,
+    maximizable: false,
+    titleBarStyle: 'hidden-inset',
+    backgroundColor: '#fff'
+  })
+
+  win.loadURL('file://' + resolvePath('../app/pages/main.html'))
+  attachTrayState(win, tray)
+
+  // We need to access it from the "About" window
+  // To be able to open it from there
+  global.preferences = win
+
+  const emitTrayClick = preferencesWindow => {
+    win.hide()
+
+    const emitClick = () => {
+      if (preferencesWindow && preferencesWindow.isVisible()) {
+        return
+      }
+
+      // Automatically open the context menu
+      if (tray) {
+        tray.emit('click')
+      }
+
+      win.removeListener('hide', emitClick)
+    }
+
+    win.on('hide', emitClick)
+  }
+
+  win.on('open-tray', emitTrayClick)
+
+  // Just hand it back
+  return win
+}
+
 app.on('window-all-closed', () => {
   if (!isPlatform('macOS')) {
     app.quit()
@@ -272,7 +319,7 @@ const fileDropped = async (event, files) => {
   event.preventDefault()
 
   if (files.length > 1) {
-    showError('It\'s not yet possible to share multiple files/directories at once.')
+    showError('You can only park o link one folder at a time.')
     return
   }
 
@@ -331,7 +378,8 @@ app.on('ready', async () => {
 
   const windows = {
     welcome: welcomeWindow(),
-    about: aboutWindow()
+    about: aboutWindow(),
+    preferences: preferencesWindow()
   }
 
   const toggleActivity = event => {
@@ -343,14 +391,14 @@ app.on('ready', async () => {
     }
   }
 
-  // Only allow one instance of Now running
+  // Only allow one instance of Valet running
   // at the same time
   app.makeSingleInstance(toggleActivity)
 
   // Periodically rebuild local cache every 10 seconds
   global.startRefresh(windows.welcome)
 
-  if (!isDev && firstRun()) {
+  if (isDev || firstRun()) {
     // Show the welcome as soon as the content has finished rendering
     // This avoids a visual flash
     windows.welcome.on('ready-to-show', () => toggleWindow(null, windows.welcome))
