@@ -2,7 +2,7 @@
 import {exec, execSync} from 'child_process'
 
 // Packages
-import {remote} from 'electron'
+import {remote, shell} from 'electron'
 import React from 'react'
 
 export default React.createClass({
@@ -12,6 +12,19 @@ export default React.createClass({
       installing: false,
       done: false
     }
+  },
+  async initApp() {
+    const currentWindow = remote.getCurrentWindow()
+    const welcomeWindow = remote.getGlobal('welcome')
+    const startRefresh = remote.getGlobal('startRefresh')
+
+    startRefresh(welcomeWindow)
+
+    // Close the tutorial
+    currentWindow.emit('open-tray', welcomeWindow)
+  },
+  async installValetInstructions() {
+    shell.openExternal('https://laravel.com/docs/valet#installation')
   },
   async installValet() {
     this.setState({
@@ -79,11 +92,11 @@ export default React.createClass({
     const element = this
 
     let classes = 'button install'
-    let installText = 'Install now'
+    let installText = 'Install Laravel Valet'
 
     if (this.state.installed) {
       classes += ' off'
-      installText = 'Already installed'
+      installText = 'Already Installed'
     }
 
     const installButton = {
@@ -93,7 +106,18 @@ export default React.createClass({
           return
         }
 
-        await this.installValet(element)
+        await element.installValetInstructions()
+      }
+    }
+
+    const initButton = {
+      className: 'button install',
+      async onClick() {
+        if (element.state.installed) {
+          return
+        }
+
+        await element.initApp()
       }
     }
 
@@ -101,7 +125,7 @@ export default React.createClass({
       return (
         <article>
           <p className="install-status">
-            <strong>Installing Valet</strong>
+            <strong>Installing Laravel Valet</strong>
 
             <i>.</i>
             <i>.</i>
@@ -112,12 +136,13 @@ export default React.createClass({
       )
     }
 
-    if (this.state.done) {
+    if (this.state.done || this.state.installed) {
       return (
         <article>
           <p><strong>Hooray! 🎉</strong></p>
-          <p>Valet has been installed.</p>
+          <p>Laravel Valet has been installed.</p>
           <p>You can now use <code>valet</code> from the command line.</p>
+          <a {...initButton}>Start</a>
         </article>
       )
     }

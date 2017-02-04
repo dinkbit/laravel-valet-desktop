@@ -101,7 +101,7 @@ const stopInterval = interval => {
   clearInterval(interval)
 }
 
-export async function refreshCache(kind, app, tutorial, interval) {
+export async function refreshCache(kind, app, welcome, interval) {
   if (kind) {
     try {
       await refreshKind(kind)
@@ -129,6 +129,14 @@ export async function refreshCache(kind, app, tutorial, interval) {
     await Promise.all(sweepers)
   } catch (err) {
     stopInterval(interval)
+
+    if (welcome) {
+      // Prepare the welcome by reloading its contents
+      welcome.reload()
+
+      // Once the content has loaded again, show it
+      welcome.once('ready-to-show', () => welcome.show())
+    }
 
     return
   }
